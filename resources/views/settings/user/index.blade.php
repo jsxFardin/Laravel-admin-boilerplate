@@ -2,7 +2,7 @@
 
 @section('icon_page', 'fas fa-users')
 
-@section('title', 'Employee')
+@section('title', 'Users')
 
 @section('menu_pagina')
     @can('create-user', \App\Models\User::class)

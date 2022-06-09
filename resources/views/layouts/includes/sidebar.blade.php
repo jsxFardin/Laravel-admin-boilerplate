@@ -61,7 +61,7 @@
                                     class="nav-link
                                     {{ request()->is('settings/user*') ? 'active' : '' }}">
                                     <i class="fas fa-users px-2"></i>
-                                    <p>Employee</p>
+                                    <p>Users</p>
                                 </a>
                             </li>
                         @endcan

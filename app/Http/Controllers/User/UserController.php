@@ -49,25 +49,12 @@ class UserController extends Controller
 
         $bloodGroup     = $this->bloodGroup;
         $roles          = Role::select('id', 'name')->get();
-        $branches       = Branch::select('id', 'name')->get();
-        $departments    = Department::select('id', 'name')->get();
-        $designations   = Designation::select('id', 'name')->get();
-        $users          = User::select('id', 'name')->get();
-        return view(
-            'settings.user.create',
-            compact(
-                'roles',
-                'branches',
-                'departments',
-                'designations',
-                'users',
-                'bloodGroup'
-            )
-        );
+        return view('settings.user.create', compact('roles'));
     }
 
     public function store(UserRequest $request)
     {
+
         $this->authorize('create-user', User::class);
 
         DB::beginTransaction();
@@ -76,28 +63,12 @@ class UserController extends Controller
                 'name'      => $request->name,
                 'email'     => $request->email,
                 'password'  => Hash::make($request->password),
+                'mobile'    => $request->mobile,
+                'address'   => $request->address,
+                'status'    => $request->status ?? 1,
             ];
             $user = User::create($userData);
-
-            if ($user) {
-                $user->roles()->attach($request->role_id);
-                $employeeInfo = [
-                    'user_id'               => $user->id,
-                    'branch_id'             => $request->branch_id,
-                    'department_id'         => $request->department_id,
-                    'designation_id'        => $request->designation_id,
-                    'supervisor_id'         => $request->supervisor_id,
-                    'employee_id'           => random_int(100000, 999999),
-                    'mobile'                => $request->mobile,
-                    'address'               => $request->address,
-                    'blood_group'           => $request->blood_group,
-                    'joining_date'          => $request->joining_date,
-                    'accommodation_cost'    => $request->accommodation_cost,
-                    'daily_allowance_cost'  => $request->daily_allowance_cost,
-                ];
-                EmployeeDetail::create($employeeInfo);
-            }
-
+            $user->roles()->attach($request->role_id);
             DB::commit();
             Toastr::success('User data successfully created!', 'Success');
             return redirect()->route('user.index')->withInput();

@@ -22,6 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'mobile',
+        'address',
+        'remarks',
+        'status'
     ];
 
     /**
@@ -66,7 +71,7 @@ class User extends Authenticatable
     public function isAdmin()
     {
         foreach ($this->roles as $role) {
-            if (in_array($role->id, [0,1])) {
+            if (in_array($role->id, [0, 1])) {
                 return true;
             }
         }
@@ -77,5 +82,4 @@ class User extends Authenticatable
     {
         return $this->roles() ?? null;
     }
-
 }
