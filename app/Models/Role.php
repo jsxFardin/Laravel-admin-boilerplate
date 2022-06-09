@@ -9,10 +9,14 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id', 
+    protected $fillable = [
+        'name',
+        'parent_id',
+        'order_no',
+        'icon',
+        'url',
+        'status',
     ];
-    
 
     public function permissions()
     {
