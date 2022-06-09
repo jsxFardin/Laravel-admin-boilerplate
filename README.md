@@ -1,1 +1,1 @@
-# kaz_novo_nordisk
+#Laravel-admin-boilerplate
