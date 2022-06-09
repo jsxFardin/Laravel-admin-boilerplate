@@ -24,16 +24,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             PermissionRoleSeeder::class,
             RoleUserSeeder::class,
-            LocationSeeder::class,
-            ExpenseTypeSeeder::class,
-            BranchSeeder::class,
-            DepartmentSeeder::class,
-            DesignationSeeder::class,
-            DestinationSeeder::class,
-            ExpenseSeeder::class,
-            DesignationSeeder::class,
             EmployeeDetailSeeder::class,
-
         ]);
     }
 }
