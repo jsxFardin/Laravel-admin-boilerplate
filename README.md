@@ -1,0 +1,1 @@
+# kaz_novo_nordisk
