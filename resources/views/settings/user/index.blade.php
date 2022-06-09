@@ -29,10 +29,8 @@
                                             <th class="sorting">SL#</th>
                                             <th class="sorting">Name</th>
                                             <th class="sorting">Email</th>
-                                            <th class="sorting">Joining Date</th>
-                                            <th class="sorting">Supervisor</th>
-                                            <th class="sorting">Accommodation</th>
-                                            <th class="sorting">Daily Allowance</th>
+                                            <th class="sorting">mobile</th>
+                                            <th class="sorting">Status</th>
                                             <th class="text-center">Action</th>
                                         </thead>
                                     </table>
@@ -82,35 +80,15 @@
                         name: 'email'
                     },
                     {
-                        data: 'employee_detail',
-                        name: 'employee_detail',
-                        render: function(data, type, row, meta) {
-                            return row.employee_detail && row.employee_detail.joining_date ?
-                                row.employee_detail.joining_date : 'N/A';
-                        }
+                        data: 'mobile',
+                        name: 'mobile'
                     },
                     {
-                        data: 'employee_detail',
-                        name: 'employee_detail',
+                        data: 'status',
+                        name: 'status',
                         render: function(data, type, row, meta) {
-                            return row.employee_detail && row.employee_detail.supervisor ?
-                                row.employee_detail.supervisor.name : 'N/A';
-                        }
-                    },
-                    {
-                        data: 'employee_detail',
-                        name: 'employee_detail',
-                        render: function(data, type, row, meta) {
-                            return row.employee_detail && row.employee_detail.accommodation_cost ?
-                                row.employee_detail.accommodation_cost : 'N/A';
-                        }
-                    },
-                    {
-                        data: 'employee_detail',
-                        name: 'employee_detail',
-                        render: function(data, type, row, meta) {
-                            return row.employee_detail && row.employee_detail.daily_allowance_cost ?
-                                row.employee_detail.daily_allowance_cost : 'N/A';
+                            return data == 1 ? '<span class="badge badge-success">Active</span>' :
+                                '<span class="badge badge-danger">Inactive</span>';;
                         }
                     },
                     {
