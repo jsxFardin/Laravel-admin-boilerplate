@@ -33,8 +33,8 @@ class RoleSeeder extends Seeder
                 'description' => 'Manager',
             ],
             [
-                'name'  => 'Employee',
-                'description' => 'Employee',
+                'name'  => 'User',
+                'description' => 'User',
             ],
         ];
 
