@@ -21,7 +21,7 @@ class EmployeeDetailSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         EmployeeDetail::factory()
-            ->count(500)
+            ->count(100)
             ->create();
     }
 }

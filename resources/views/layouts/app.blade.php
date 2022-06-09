@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Petty Cash Management</title>
+    <title>Laravel Admin Boilerplate</title>
 
     <!-- Google Font: Source Sans Pro -->
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
@@ -74,9 +74,10 @@
             @include('layouts.includes.breadcrumb')
             <!-- /.breadcrumb -->
 
-            @if(session('error'))
-                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="border-radius: unset !important"> 
-                    {{session('error')}}
+            @if (session('error'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                    style="border-radius: unset !important">
+                    {{ session('error') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

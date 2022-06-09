@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert($data);
 
         User::factory()
-            ->count(500)
+            ->count(100)
             ->create();
 
         $this->command->info('Users has been created!');

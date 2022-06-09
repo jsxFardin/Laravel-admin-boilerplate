@@ -20,7 +20,7 @@ class ExpenseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         Expense::factory()
-            ->count(500)
+            ->count(100)
             ->create();
     }
 }
