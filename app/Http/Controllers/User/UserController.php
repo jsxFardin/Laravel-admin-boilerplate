@@ -26,28 +26,7 @@ class UserController extends Controller
         $this->authorize('list-user', User::class);
 
         if (request()->ajax()) :
-            // $query = DB::table('users as u')
-            //     ->join('employee_details as ed', 'ed.user_id', 'u.id')
-            //     ->join('designations as d', 'd.id', 'ed.designation_id')
-            //     ->join('departments as de', 'de.id', 'ed.department_id')
-            //     ->join('branches as b', 'b.id', 'ed.branch_id')
-            //     ->when(!Auth::user()->isAdmin(), function ($query) {
-            //         $query->where('e.created_by', Auth()->user()->id);
-            //     })
-            //     ->select(
-            //         'u.id as id',
-            //         'u.name as name',
-            //         'u.email as email',
-            //         'u.status as status',
-            //         'd.name as designation',
-            //         'de.name as department',
-            //         'b.name as branch',
-            //         'ed.accommodation_cost as accommodation_cost',
-            //         'ed.daily_allowance_cost as daily_allowance_cost',
-            //         'ed.joining_date as joining_date',
-            //         'ud.name as supervisor'
-            //     );
-            $query = User::with('employeeDetail', 'employeeDetail.supervisor');
+            $query = User::query();
 
             return datatables()->of($query)
                 ->addColumn('action', 'settings.user.action')

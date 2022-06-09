@@ -73,58 +73,6 @@ class User extends Authenticatable
         return false;
     }
 
-    public function employeeDetail()
-    {
-        return $this->hasOne(EmployeeDetail::class);
-    }
-
-
-
-    protected function getBranchNameAttribute()
-    {
-        return
-            $this->employeeDetail()->first() && $this->employeeDetail()->first()->branch()->first() ?
-            $this->employeeDetail()->first()->branch()->first()->name : null;
-    }
-
-    protected function getDepartmentNameAttribute()
-    {
-        return
-            $this->employeeDetail()->first() && $this->employeeDetail()->first()->department()->first() ?
-            $this->employeeDetail()->first()->department()->first()->name : null;
-    }
-
-    protected function getDesignationNameAttribute()
-    {
-        return
-            $this->employeeDetail()->first() && $this->employeeDetail()->first()->designation()->first() ?
-            $this->employeeDetail()->first()->designation()->first()->name : null;
-    }
-
-    protected function getJoiningDateAttribute()
-    {
-        return $this->employeeDetail()->first() ?
-            Carbon::parse($this->employeeDetail()->first()->joining_date)->format('d F Y') : null;
-    }
-
-    protected function getSupervisorAttribute()
-    {
-        return $this->employeeDetail()->first() && $this->employeeDetail()->first()->supervisor() ?
-            $this->employeeDetail()->first()->supervisor()->first() : null;
-    }
-
-    protected function getAccommodationAttribute()
-    {
-        return $this->employeeDetail()->first() ?
-            $this->employeeDetail()->first()->accommodation_cost : null;
-    }
-
-    protected function getDailyAllowanceAttribute()
-    {
-        return $this->employeeDetail()->first() ?
-            $this->employeeDetail()->first()->daily_allowance_cost : null;
-    }
-
     protected function getRoleIdAttribute()
     {
         return $this->roles() ?? null;

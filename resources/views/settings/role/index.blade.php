@@ -74,8 +74,8 @@
                         name: 'name'
                     },
                     {
-                        data: 'label',
-                        name: 'label'
+                        data: 'description',
+                        name: 'description'
                     },
                     {
                         data: 'action',
