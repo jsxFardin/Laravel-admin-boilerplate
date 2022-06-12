@@ -80,32 +80,17 @@ class UserController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
         $this->authorize('show-user', User::class);
 
         $bloodGroup = $this->bloodGroup;
-        $roles          = Role::select('id', 'name')->get();
-        $branches       = Branch::select('id', 'name')->get();
-        $departments    = Department::select('id', 'name')->get();
-        $designations   = Designation::select('id', 'name')->get();
-        $users          = User::select('id', 'name')->get();
-        $user           = User::findOrFail($id);
         $role_user      = DB::table('role_user')
             ->where('user_id', '=', $user->id)->get();
 
         return view(
             'settings.user.edit',
-            compact(
-                'roles',
-                'branches',
-                'departments',
-                'designations',
-                'users',
-                'bloodGroup',
-                'user',
-                'role_user'
-            )
+            compact('user', 'role_user')
         );
     }
 
