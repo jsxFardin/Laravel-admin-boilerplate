@@ -22,6 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'mobile',
+        'address',
+        'remarks',
+        'status'
     ];
 
     /**
@@ -66,68 +71,15 @@ class User extends Authenticatable
     public function isAdmin()
     {
         foreach ($this->roles as $role) {
-            if (in_array($role->id, [0,1])) {
+            if (in_array($role->id, [0, 1])) {
                 return true;
             }
         }
         return false;
     }
 
-    public function employeeDetail()
-    {
-        return $this->hasOne(EmployeeDetail::class);
-    }
-
-
-
-    protected function getBranchNameAttribute()
-    {
-        return
-            $this->employeeDetail()->first() && $this->employeeDetail()->first()->branch()->first() ?
-            $this->employeeDetail()->first()->branch()->first()->name : null;
-    }
-
-    protected function getDepartmentNameAttribute()
-    {
-        return
-            $this->employeeDetail()->first() && $this->employeeDetail()->first()->department()->first() ?
-            $this->employeeDetail()->first()->department()->first()->name : null;
-    }
-
-    protected function getDesignationNameAttribute()
-    {
-        return
-            $this->employeeDetail()->first() && $this->employeeDetail()->first()->designation()->first() ?
-            $this->employeeDetail()->first()->designation()->first()->name : null;
-    }
-
-    protected function getJoiningDateAttribute()
-    {
-        return $this->employeeDetail()->first() ?
-            Carbon::parse($this->employeeDetail()->first()->joining_date)->format('d F Y') : null;
-    }
-
-    protected function getSupervisorAttribute()
-    {
-        return $this->employeeDetail()->first() && $this->employeeDetail()->first()->supervisor() ?
-            $this->employeeDetail()->first()->supervisor()->first() : null;
-    }
-
-    protected function getAccommodationAttribute()
-    {
-        return $this->employeeDetail()->first() ?
-            $this->employeeDetail()->first()->accommodation_cost : null;
-    }
-
-    protected function getDailyAllowanceAttribute()
-    {
-        return $this->employeeDetail()->first() ?
-            $this->employeeDetail()->first()->daily_allowance_cost : null;
-    }
-
     protected function getRoleIdAttribute()
     {
         return $this->roles() ?? null;
     }
-
 }

@@ -26,28 +26,7 @@ class UserController extends Controller
         $this->authorize('list-user', User::class);
 
         if (request()->ajax()) :
-            // $query = DB::table('users as u')
-            //     ->join('employee_details as ed', 'ed.user_id', 'u.id')
-            //     ->join('designations as d', 'd.id', 'ed.designation_id')
-            //     ->join('departments as de', 'de.id', 'ed.department_id')
-            //     ->join('branches as b', 'b.id', 'ed.branch_id')
-            //     ->when(!Auth::user()->isAdmin(), function ($query) {
-            //         $query->where('e.created_by', Auth()->user()->id);
-            //     })
-            //     ->select(
-            //         'u.id as id',
-            //         'u.name as name',
-            //         'u.email as email',
-            //         'u.status as status',
-            //         'd.name as designation',
-            //         'de.name as department',
-            //         'b.name as branch',
-            //         'ed.accommodation_cost as accommodation_cost',
-            //         'ed.daily_allowance_cost as daily_allowance_cost',
-            //         'ed.joining_date as joining_date',
-            //         'ud.name as supervisor'
-            //     );
-            $query = User::with('employeeDetail', 'employeeDetail.supervisor');
+            $query = User::query();
 
             return datatables()->of($query)
                 ->addColumn('action', 'settings.user.action')
@@ -70,25 +49,12 @@ class UserController extends Controller
 
         $bloodGroup     = $this->bloodGroup;
         $roles          = Role::select('id', 'name')->get();
-        $branches       = Branch::select('id', 'name')->get();
-        $departments    = Department::select('id', 'name')->get();
-        $designations   = Designation::select('id', 'name')->get();
-        $users          = User::select('id', 'name')->get();
-        return view(
-            'settings.user.create',
-            compact(
-                'roles',
-                'branches',
-                'departments',
-                'designations',
-                'users',
-                'bloodGroup'
-            )
-        );
+        return view('settings.user.create', compact('roles'));
     }
 
     public function store(UserRequest $request)
     {
+
         $this->authorize('create-user', User::class);
 
         DB::beginTransaction();
@@ -97,28 +63,12 @@ class UserController extends Controller
                 'name'      => $request->name,
                 'email'     => $request->email,
                 'password'  => Hash::make($request->password),
+                'mobile'    => $request->mobile,
+                'address'   => $request->address,
+                'status'    => $request->status ?? 1,
             ];
             $user = User::create($userData);
-
-            if ($user) {
-                $user->roles()->attach($request->role_id);
-                $employeeInfo = [
-                    'user_id'               => $user->id,
-                    'branch_id'             => $request->branch_id,
-                    'department_id'         => $request->department_id,
-                    'designation_id'        => $request->designation_id,
-                    'supervisor_id'         => $request->supervisor_id,
-                    'employee_id'           => random_int(100000, 999999),
-                    'mobile'                => $request->mobile,
-                    'address'               => $request->address,
-                    'blood_group'           => $request->blood_group,
-                    'joining_date'          => $request->joining_date,
-                    'accommodation_cost'    => $request->accommodation_cost,
-                    'daily_allowance_cost'  => $request->daily_allowance_cost,
-                ];
-                EmployeeDetail::create($employeeInfo);
-            }
-
+            $user->roles()->attach($request->role_id);
             DB::commit();
             Toastr::success('User data successfully created!', 'Success');
             return redirect()->route('user.index')->withInput();
@@ -130,32 +80,17 @@ class UserController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
         $this->authorize('show-user', User::class);
 
         $bloodGroup = $this->bloodGroup;
-        $roles          = Role::select('id', 'name')->get();
-        $branches       = Branch::select('id', 'name')->get();
-        $departments    = Department::select('id', 'name')->get();
-        $designations   = Designation::select('id', 'name')->get();
-        $users          = User::select('id', 'name')->get();
-        $user           = User::findOrFail($id);
         $role_user      = DB::table('role_user')
             ->where('user_id', '=', $user->id)->get();
 
         return view(
             'settings.user.edit',
-            compact(
-                'roles',
-                'branches',
-                'departments',
-                'designations',
-                'users',
-                'bloodGroup',
-                'user',
-                'role_user'
-            )
+            compact('user', 'role_user')
         );
     }
 

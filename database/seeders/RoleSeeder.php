@@ -17,24 +17,24 @@ class RoleSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('roles')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        
-        
+
+
         $data = [
             [
                 'name'  => 'Admin',
-                'label' => 'Master Administrators',
+                'description' => 'Master Administrators',
             ],
             [
                 'name'  => 'Coordinator',
-                'label' => 'System Coordinator',
+                'description' => 'System Coordinator',
             ],
             [
                 'name'  => 'Manager',
-                'label' => 'Manager',
+                'description' => 'Manager',
             ],
             [
-                'name'  => 'Employee',
-                'label' => 'Employee',
+                'name'  => 'User',
+                'description' => 'User',
             ],
         ];
 

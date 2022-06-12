@@ -18,7 +18,6 @@ class RoleUserSeeder extends Seeder
         DB::table('role_user')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-
         $data = [
             // FOR ADMIN ROLE
             [
@@ -39,7 +38,7 @@ class RoleUserSeeder extends Seeder
                 'role_id' => 3,
                 'user_id' => 4,
             ],
-            // FOR EMPLOYEE ROLE
+            // FOR USER ROLE
             [
                 'role_id' => 4,
                 'user_id' => 5,

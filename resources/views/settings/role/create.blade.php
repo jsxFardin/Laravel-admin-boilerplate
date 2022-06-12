@@ -36,9 +36,9 @@
                                 </div>
                                 <div class="col-md-6 col-xs-12">
                                     <div class="form-group">
-                                        <label for="label">Description*</label>
-                                        <textarea name="label" class="form-control @error('label') is-invalid @enderror" rows="3" cols="50">{{ old('label') }}</textarea>
-                                        @error('label')
+                                        <label for="description">Description*</label>
+                                        <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="3" cols="50">{{ old('description') }}</textarea>
+                                        @error('description')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

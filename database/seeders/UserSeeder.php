@@ -24,47 +24,54 @@ class UserSeeder extends Seeder
         $data = [
             [
                 'name'      => 'Emma Grate',
-                'email'     => 'admin@test.com',
+                'email'     => 'admin@admin.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552872',
             ],
             [
                 'name'      => 'Ivan Itchinos',
                 'email'     => 'coordinator@test.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552871',
             ],
             // FOR MANAGER ROLE
             [
                 'name'      => 'Sam Smith',
                 'email'     => 'samsmith@test.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552870',
             ],
             [
                 'name'      => 'jane doe',
                 'email'     => 'janedoe@test.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552869',
             ],
             // FOR EMPLOYEE ROLE
             [
                 'name'      => 'kinley adams',
                 'email'     => 'kinley@test.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552868',
             ],
             [
                 'name'      => 'Audie Yose',
                 'email'     => 'Audie@test.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552867',
             ],
             [
                 'name'      => 'Mark Ateer',
                 'email'     => 'mark@test.com',
                 'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552866',
             ],
         ];
 
         DB::table('users')->insert($data);
 
         User::factory()
-            ->count(500)
+            ->count(100)
             ->create();
 
         $this->command->info('Users has been created!');
