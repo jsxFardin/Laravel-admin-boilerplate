@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Models\{Role, User};
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -89,7 +90,7 @@ class UserController extends Controller
         try {
             $userData = [
                 'name'      => $request->name,
-                'email'     => $request->email,
+                'email'     => $request->email ?? $user->email,
                 'mobile'    => $request->mobile,
                 'address'   => $request->address,
                 'status'    => $request->status ?? $user->status,
