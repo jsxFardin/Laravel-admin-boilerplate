@@ -4,12 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use App\Models\Branch;
-use App\Models\Department;
-use App\Models\Designation;
-use App\Models\EmployeeDetail;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\{Role, User};
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +13,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    private $bloodGroup = ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'];
-
 
     public function index(Request $request)
     {
@@ -47,7 +40,6 @@ class UserController extends Controller
     {
         $this->authorize('create-user', User::class);
 
-        $bloodGroup     = $this->bloodGroup;
         $roles          = Role::select('id', 'name')->get();
         return view('settings.user.create', compact('roles'));
     }
@@ -83,18 +75,14 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $this->authorize('show-user', User::class);
-
-        $bloodGroup = $this->bloodGroup;
-        $role_user      = DB::table('role_user')
+        $roles = Role::select('id', 'name')->get();
+        $role_user = DB::table('role_user')
             ->where('user_id', '=', $user->id)->get();
 
-        return view(
-            'settings.user.edit',
-            compact('user', 'role_user')
-        );
+        return view('settings.user.edit', compact('user', 'roles', 'role_user'));
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, User $user)
     {
         $this->authorize('edit-user', User::class);
 
@@ -102,31 +90,19 @@ class UserController extends Controller
         try {
             $userData = [
                 'name'      => $request->name,
-                'email'     => $request->email,
+                'email'     => $request->email ?? $user->email,
+                'mobile'    => $request->mobile,
+                'address'   => $request->address,
+                'status'    => $request->status ?? $user->status,
             ];
-            $user = User::findOrFail($id);
             $user->update($userData);
 
             if ($user) {
                 $user->roles()->sync($request->role_id);
-                $employeeInfo = [
-                    'user_id'               => $user->id,
-                    'branch_id'             => $request->branch_id,
-                    'department_id'         => $request->department_id,
-                    'designation_id'        => $request->designation_id,
-                    'supervisor_id'         => $request->supervisor_id,
-                    'mobile'                => $request->mobile,
-                    'address'               => $request->address,
-                    'blood_group'           => $request->blood_group,
-                    'joining_date'          => $request->joining_date,
-                    'accommodation_cost'    => $request->accommodation_cost,
-                    'daily_allowance_cost'  => $request->daily_allowance_cost,
-                ];
-                EmployeeDetail::updateOrCreate(['id' => $request->employee_details_id], $employeeInfo);
             }
 
             DB::commit();
-            Toastr::success('User data successfully updated!', 'Success');
+            Toastr::success('User successfully updated!', 'Success');
             return redirect()->route('user.index')->withInput();
         } catch (\Exception $error) {
 
@@ -143,10 +119,9 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
-            $user->roles()->detach();
 
             if ($user) {
-                EmployeeDetail::where('user_id', '=', $user->id)->delete();
+                $user->roles()->detach();
             }
 
             Toastr::success('User data successfully deleted!', 'Success');
@@ -161,26 +136,28 @@ class UserController extends Controller
     public function changePassword(Request $request, $id)
     {
         $this->authorize('edit-user', User::class);
+        try {
+            $request->validate([
+                'old_password'          => 'required',
+                'new_password'          => 'required|min:6',
+                'new_confirm_password'  => 'same:new_password',
+            ]);
+            $user = User::where('id', $id)->first();
 
-        # Validation
-        $request->validate([
-            'old_password'          => 'required',
-            'new_password'          => 'required|min:6',
-            'new_confirm_password'  => 'same:new_password',
-        ]);
-        $user = User::where('id', $id)->first();
+            if (!Hash::check($request->old_password, $user->password)) {
+                return back()->with("error", "Old Password Doesn't match!");
+            }
 
-        #Match The Old Password
-        if (!Hash::check($request->old_password, $user->password)) {
-            return back()->with("error", "Old Password Doesn't match!");
+            $user->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+
+            Toastr::success('Password successfully updated!', 'Success');
+            return redirect()->route('user.index')->withInput();
+        } catch (\Exception $error) {
+
+            Toastr::warning($error->getMessage(), 'Warning');
+            return redirect()->back();
         }
-
-        #Update the new Password
-        User::findOrFail($id)->update([
-            'password' => Hash::make($request->new_password)
-        ]);
-
-        Toastr::success('Password successfully updated!', 'Success');
-        return redirect()->route('user.index')->withInput();
     }
 }
