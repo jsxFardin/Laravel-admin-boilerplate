@@ -35,8 +35,4 @@ Route::group(['middleware' => ['auth:web']], function () {
         ->name('user.profile');
     Route::put('/settings/user/profile/{user}', [App\Http\Controllers\User\ProfileController::class, 'update'])
     ->name('profile.update');
-    // // Route::put('/settings/user/profile/{user}', function (App\Http\Requests\UserRequest $request, App\Models\User $user) {
-    // //     dd($request->all());
-    // // })->name('user.profile.update');
-    // Route::resource('settings/user/profile', App\Http\Controllers\User\ProfileController::class)->except('show', 'index');
 });
