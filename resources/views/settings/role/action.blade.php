@@ -8,10 +8,4 @@
         data-target="#delete-modal-{{ $id }}">
         <i class="fas fa-trash-alt"></i>
     </a>
-
-    @include('layouts.includes.delete_modal', [
-        'row' => $id,
-        'name' => 'role',
-        'url' => 'role.destroy',
-    ])
 @endcan

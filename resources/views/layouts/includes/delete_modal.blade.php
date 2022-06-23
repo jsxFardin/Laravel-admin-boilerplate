@@ -1,5 +1,5 @@
 <!-- delete modal -->
-<div class="modal fade" id="delete-modal-{{$id}}">
+<div class="modal fade" id="{{ $modalId }}">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header bg-danger">
@@ -9,28 +9,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you want to delete ({{ $name }})?</p>
+                <p>Are you want to delete?</p>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-
-                {{-- <a href="{{ route('location.destroy', $row->id) }}">
-                    <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt"></i>
-                        Delete
-                    </button>
-                </a> --}}
-
-                <form action="{{ route($url, $id) }}"
-                    method="Post">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt"></i>
-                        Delete
-                    </button>
-                </form>
-
+                <button type="submit" class="btn btn-danger btn-sm" onclick="{{ $methodName }}()">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete
+                </button>
             </div>
         </div>
         <!-- /.modal-content -->
