@@ -19,17 +19,17 @@ class RoleUserSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $data = [
-            // FOR ADMIN ROLE
+            // FOR Super ADMIN ROLE
             [
                 'role_id' => 1,
                 'user_id' => 1,
             ],
-            // FOR COORDINATOR ROLE
+            // FOR ADMIN ROLE
             [
                 'role_id' => 2,
                 'user_id' => 2,
             ],
-            // FOR MANAGER ROLE
+            // FOR COORDINATOR ROLE
             [
                 'role_id' => 3,
                 'user_id' => 3,
@@ -38,7 +38,7 @@ class RoleUserSeeder extends Seeder
                 'role_id' => 3,
                 'user_id' => 4,
             ],
-            // FOR USER ROLE
+            // FOR MANAGER ROLE
             [
                 'role_id' => 4,
                 'user_id' => 5,

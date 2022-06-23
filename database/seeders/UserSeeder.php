@@ -23,6 +23,12 @@ class UserSeeder extends Seeder
 
         $data = [
             [
+                'name'      => 'Super Admin',
+                'email'     => 'superadmin@admin.com',
+                'password'  => Hash::make('12345678'),
+                'mobile'    => '01759552872',
+            ],
+            [
                 'name'      => 'Emma Grate',
                 'email'     => 'admin@admin.com',
                 'password'  => Hash::make('12345678'),
