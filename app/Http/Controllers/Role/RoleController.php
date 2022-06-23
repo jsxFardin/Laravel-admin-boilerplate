@@ -123,16 +123,15 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
         $this->authorize('delete-role', Role::class);
         try {
+            $role = Role::find($id);
             $role->delete();
-            Toastr::success('Role successfully deleted!', 'Success');
-            return redirect()->route('role.index')->with('success', 'Role deleted successfully');
+            return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
         } catch (\Exception $e) {
-            Toastr::error('Failed to delete Role!', 'Error');
-            return redirect()->route('role.index')->with('error', 'Something went wrong');
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 }
