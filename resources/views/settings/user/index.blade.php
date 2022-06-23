@@ -37,6 +37,11 @@
                                 </div>
                             </div>
                         </div>
+                        @include('layouts.includes.delete_modal', [
+                            'modalId' => 'user-delete-modal',
+                            'url' => 'user.destroy',
+                            'methodName' => 'deleteUser',
+                        ])
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -52,6 +57,7 @@
 @endsection
 
 @section('page_scripts')
+    <script src="{{ asset('assets/js/ajax/ajax-methods.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#datatable-user').DataTable({
@@ -102,5 +108,19 @@
                 ]
             });
         })
+
+        let roleId = null;
+        let modalId = 'user-delete-modal';
+        let tableId = 'datatable-user';
+
+        function loadUserDeleteModal(id) {
+            userId = id;
+            $(`#${modalId}`).modal('show');
+        }
+
+        function deleteUser() {
+            let url = `{{ url('settings/user/${userId}') }}`;
+            ajaxDelete(url, modalId, tableId);
+        }
     </script>
 @endsection

@@ -117,22 +117,16 @@ class UserController extends Controller
         $this->authorize('delete-user', User::class);
 
         try {
-            $user = User::findOrFail($id);
+            $user = User::find($id);
             $user->delete();
-
-            if ($user) {
-                $user->roles()->detach();
-            }
-
-            Toastr::success('User data successfully deleted!', 'Success');
-            return redirect()->back();
+            $user->roles()->detach();
+            return response()->json(['success' => true, 'message' => 'User deleted successfully.']);
         } catch (\Exception $error) {
 
-            Toastr::warning($error->getMessage(), 'Warning');
-            return redirect()->back();
+            return response()->json(['success' => false, 'message' => $error->getMessage()]);
         }
     }
-
+    
     public function changePassword(Request $request, $id)
     {
         $this->authorize('edit-user', User::class);
