@@ -19,7 +19,7 @@ class UserController extends Controller
         $this->authorize('list-user', User::class);
 
         if (request()->ajax()) :
-            $query = User::query();
+            $query = User::where('id', '!=', 1);
 
             return datatables()->of($query)
                 ->addColumn('action', 'settings.user.action')

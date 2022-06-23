@@ -19,7 +19,7 @@ class RoleController extends Controller
         $this->authorize('list-role', Role::class);
 
         if (request()->ajax()) :
-            $query = Role::query();
+            $query = Role::where('id', '!=', 1);
 
             return datatables()->of($query)
                 ->addColumn('action', 'settings.role.action')
