@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
     return view('auth/login');
 });
-
 Auth::routes();
 
 
@@ -38,14 +40,3 @@ Route::group(['middleware' => ['auth:web']], function () {
         ->name('profile.update');
 });
 
-Route::get('send-mail', function () {
-
-    $details = [
-        'title' => 'Mail from karaoke',
-        'body' => 'This is for testing email using smtp'
-    ];
-
-    Mail::to('fardin.ahsan75@gmail.com')->send(new \App\Mail\User($details));
-
-    dd("Email is Sent.");
-});

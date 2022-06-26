@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\Mail\MailHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\{Role, User};
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    use MailHelper;
 
     public function index(Request $request)
     {
@@ -62,6 +64,7 @@ class UserController extends Controller
             $user = User::create($userData);
             $user->roles()->attach($request->role_id);
             DB::commit();
+            $this->sendMailForUserCreate($user);
             Toastr::success('User data successfully created!', 'Success');
             return redirect()->route('user.index')->withInput();
         } catch (\Exception $error) {

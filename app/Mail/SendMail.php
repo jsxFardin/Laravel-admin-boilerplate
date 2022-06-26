@@ -7,11 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class User extends Mailable
+class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $details;
+    private $details;
 
     /**
      * Create a new message instance.
@@ -30,6 +30,8 @@ class User extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from karaoke')->view('mail.user');
+        return $this->subject($this->details['subject'])
+            ->view($this->details['view'])
+            ->with('data', $this->details['data']);
     }
 }

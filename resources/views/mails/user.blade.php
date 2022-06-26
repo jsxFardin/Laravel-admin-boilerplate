@@ -2,12 +2,12 @@
 <html>
 
 <head>
-    <title>karaoke</title>
+    <title>{{ $data['title'] }}</title>
 </head>
 
 <body>
-    <h1>{{ $details['title'] }}</h1>
-    <p>{{ $details['body'] }}</p>
+    <h1>{{ $data['title'] }}</h1>
+    <p>{{ $data['body'] }}</p>
 
     <p>Thank you</p>
 </body>
