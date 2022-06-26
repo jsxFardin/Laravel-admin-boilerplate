@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
     return view('auth/login');
 });
-
 Auth::routes();
 
 
@@ -34,5 +37,6 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/settings/user/profile', [App\Http\Controllers\User\ProfileController::class, 'profile'])
         ->name('user.profile');
     Route::put('/settings/user/profile/{user}', [App\Http\Controllers\User\ProfileController::class, 'update'])
-    ->name('profile.update');
+        ->name('profile.update');
 });
+
